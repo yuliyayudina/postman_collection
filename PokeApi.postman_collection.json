@@ -1,0 +1,313 @@
+{
+	"info": {
+		"_postman_id": "95a9d9d6-8588-40aa-bdc0-7a9a9d006c53",
+		"name": "PokeApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Pokemon",
+			"item": [
+				{
+					"name": "CheckById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6bff6a2c-a56e-479c-99c1-74de9f349395",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"",
+									"pm.test(\"Body matches PokeName\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"charmeleon\");",
+									"});",
+									"",
+									"pm.test(\"Body is a valid json\", function () {",
+									"    pm.expect(pm.response).to.be.json;",
+									"});",
+									"",
+									"pm.test(\"Pokemon id is integer\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.id).to.be.a('number');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Your test name\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.base_experience).to.eql(142);",
+									"});",
+									"",
+									"pm.test(\"Body matches heroIdVariable\", function () {",
+									"    pm.expect(pm.response.text()).to.include(pm.environment.get(\"heroId\"));",
+									"});",
+									"",
+									"",
+									"",
+									"pm.test(\"Body matches PokeName\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.name).to.eql(\"charmeleon\");",
+									"});",
+									"",
+									"pm.test(\"Body matches gameIndex\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.game_indices[0].game_index).to.eql(5);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Body has declared fields\", function(){",
+									"    var jsonData=pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"abilities\");",
+									"});",
+									"",
+									"pm.test(\"Value is not NULL\", function(){",
+									"    var jsonData=pm.response.json();",
+									"    pm.expect(jsonData.base_experience).not.equal(\"null\");",
+									"});",
+									"",
+									"pm.test(\"Value is not empty\", function() {",
+									"    var jsonData=pm.response.json();",
+									"    pm.expect(jsonData.game_indices).not.equal(\"\");",
+									"});",
+									"",
+									"pm.test(\"Cookie\", function() {",
+									"    pm.expect(pm.cookies.has(\"__cfduid\")).to.be.true;",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{pokeUrl}}/:id",
+							"host": [
+								"{{pokeUrl}}"
+							],
+							"path": [
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{heroId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "checkByName",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9bac8841-04d4-42e8-b1a8-24b155d28027",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"",
+									"pm.test(\"Status code name has string\", function () {",
+									"    pm.response.to.have.status(\"OK\");",
+									"});",
+									"",
+									"pm.test(\"Body is json\", function () {",
+									"    pm.expect (pm.response).to.be.json;",
+									"});",
+									" ",
+									"pm.test(\"Correct ability name\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.abilities[1].ability.name).to.eql(\"limber\");",
+									"});",
+									"",
+									"",
+									"",
+									"pm.test(\"Body include variableName\", function () {",
+									"    pm.expect(pm.response.text()).to.include(pm.environment.get(\"heroName\"));",
+									"});",
+									"",
+									"",
+									"",
+									"pm.environment.set(\"heroName\", \"ditto\");",
+									"",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Etag\");",
+									"});",
+									"",
+									"pm.test(\"Correct headerValue\", function () {",
+									"    //var jsonData = pm.headers.json;",
+									"    pm.expect(pm.response.headers.get(\"connection\")).to.eql(\"keep-alive\");",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{pokeUrl}}/:name",
+							"host": [
+								"{{pokeUrl}}"
+							],
+							"path": [
+								":name"
+							],
+							"variable": [
+								{
+									"key": "name",
+									"value": "{{heroName}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Berries",
+			"item": [
+				{
+					"name": "BerryIdCheck",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ec076aad-8579-426e-846a-ad36ba4201e5",
+								"exec": [
+									"pm.sendRequest(\"https://postman-echo.com/get\", function (err, response) {",
+									"    console.log(response.json());",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(10);",
+									"});",
+									"",
+									"pm.test(\"Check flavors name\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.flavors[0].flavor.name).to.eql('spicy');",
+									"});",
+									"",
+									"",
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(pm.globals.get(\"BerryNumber\"));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{berryUrl}}/:id",
+							"host": [
+								"{{berryUrl}}"
+							],
+							"path": [
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{BerryNumber}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BerryNameCheck",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{berryUrl}}/:name",
+							"host": [
+								"{{berryUrl}}"
+							],
+							"path": [
+								":name"
+							],
+							"variable": [
+								{
+									"key": "name",
+									"value": "{{BerryName}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "fb060804-1fad-4c69-88a6-2984a58b312c",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "b7172157-2d3e-4ea8-a04a-d4ff1d1dc75a",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "142f9ed4-1abc-4233-980d-df73506a77a0",
+			"key": "id",
+			"value": "2",
+			"type": "string"
+		},
+		{
+			"id": "e36c496d-0dcf-4f11-9a4a-7f6c0950e45b",
+			"key": "name",
+			"value": "fire",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
